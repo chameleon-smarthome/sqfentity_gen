@@ -1,3 +1,6 @@
+## 2.3.1+5
+- fixed
+
 ## 2.3.0+4
 - fixed issue [281](https://github.com/hhtokpinar/sqfEntity/issues/281)
   and removed customizing datetime formats.
