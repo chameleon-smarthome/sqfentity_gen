@@ -14,22 +14,23 @@ description: example SQFEntity Project
 version: 2.2.0+12
 
 environment:
-  sdk: ">=2.12.2 <3.0.0"
+  sdk: '>=3.0.0'
+  flutter: ">=3.10.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  sqfentity: ^2.2.0+6
-  sqfentity_gen: ^2.2.0+12
+  sqfentity: 2.4.0
+  sqfentity_gen: 2.4.0
   path_provider: any
   pedantic: ^1.11.1
   http: ^0.13.4
 
 
 dependency_overrides:
-  sqfentity: 
-    path: ../../sqfentity
-  sqfentity_gen: 
+#  sqfentity:
+#    path: ../../sqfentity
+  sqfentity_gen:
     path: ../../sqfentity_gen      
 
     
