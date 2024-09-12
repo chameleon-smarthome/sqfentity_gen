@@ -151,7 +151,7 @@ class ${modelName}AddState extends State {
     // print('toFormWidgetsCode begin 8: tableName:${table.tableName}');
     final retVal = StringBuffer();
     for (final field in table.fields!.where((f) =>
-        f.dbType == DbType.date ||
+    f.dbType == DbType.date ||
         f.dbType == DbType.datetime ||
         f.dbType == DbType.datetimeUtc)) {
       final ccName = toCamelCase(field.fieldName);
@@ -302,11 +302,11 @@ class ${modelName}AddState extends State {
     final String fName = field.fieldName!;
     final String ccName = toCamelCase(fName);
     switch (field.dbType) {
-      // case DbType.real:
-      // case DbType.blob:
-      // case DbType.integer:
-      // case DbType.numeric:
-      //   return 'txt$ccName.text =$objName.$fName == null ? \'\' : $objName.$fName.toString();';
+    // case DbType.real:
+    // case DbType.blob:
+    // case DbType.integer:
+    // case DbType.numeric:
+    //   return 'txt$ccName.text =$objName.$fName == null ? \'\' : $objName.$fName.toString();';
       case DbType.bool:
         return '';
       case DbType.date:
@@ -318,7 +318,7 @@ class ${modelName}AddState extends State {
         ''';
       default:
         return 'txt$ccName.text =$objName.$fName == null ? \'\' : $objName.$fName.toString();';
-      //return 'txt$ccName.text = $objName.$fName ?? \'\';';
+    //return 'txt$ccName.text = $objName.$fName ?? \'\';';
     }
   }
 
@@ -452,8 +452,7 @@ class ${modelName}AddState extends State {
         return retVal.toString();
       case DbType.date:
         retVal.writeln('return TextFormField(');
-        retVal.writeln(
-            '''onTap: () => UITools.showDateTimePicker(context
+        retVal.writeln('''onTap: () => UITools.showDateTimePicker(context
           ${_getNullableValueField(field.minValue, 'minTime')}
           ${_getNullableValueField(field.maxValue, 'maxTime')}
           , onConfirm: (sqfSelectedDate) {
@@ -558,7 +557,7 @@ String getformListSubTitleField(SqfEntityTableBase table) {
     }
     if (fieldName.isEmpty) {
       for (final field in table.fields!.where((f) =>
-          f is! SqfEntityFieldVirtualBase &&
+      f is! SqfEntityFieldVirtualBase &&
           !(f is SqfEntityFieldRelationshipBase &&
               f.relationType == RelationType.MANY_TO_MANY))) {
         if (field.fieldName != table.formListTitleField) {

@@ -33,19 +33,19 @@ class SqfEntityGenerator extends GeneratorForAnnotation<SqfEntityBuilder> {
         'SQFENTITY GENERATOR: builder initialized (${builder.instancename})...');
     final dbModel = builder.toModel();
 
-    print('${dbModel.modelName} Model recognized succesfuly');
+    print('${dbModel.modelName} Model recognized successfully');
     final modelStr = MyStringBuffer()
-          //..writeln('/*') // write output as commented to see what is wrong
-          ..writeln(SqfEntityConverter(dbModel).createModelDatabase())
-          ..printToDebug(
-              '${dbModel.modelName} converted to SqfEntityModelBase successfully')
-          ..writeln(SqfEntityConverter(dbModel).createEntites())
-          ..printToDebug(
-              '${dbModel.modelName} converted to Entities successfully')
-          ..writeln(SqfEntityConverter(dbModel).createControllers())
-          ..printToDebug(
-              '${dbModel.modelName} converted to Controller successfully')
-        //..writeln('*/') //  write output as commented to see what is wrong
+    //..writeln('/*') // write output as commented to see what is wrong
+      ..writeln(SqfEntityConverter(dbModel).createModelDatabase())
+      ..printToDebug(
+          '${dbModel.modelName} converted to SqfEntityModelBase successfully')
+      ..writeln(SqfEntityConverter(dbModel).createEntites())
+      ..printToDebug(
+          '${dbModel.modelName} converted to Entities successfully')
+      ..writeln(SqfEntityConverter(dbModel).createControllers())
+      ..printToDebug(
+          '${dbModel.modelName} converted to Controller successfully')
+    //..writeln('*/') //  write output as commented to see what is wrong
         ;
     return modelStr.toString();
   }

@@ -21,13 +21,17 @@ import 'package:meta/meta.dart';
 part 'sqfentity_base.dart';
 part 'sqfentity_form_gen.dart';
 
+/// Creates basic forms based on tables and column definitions
+/// String fields create Text Input
+/// Relationships provides to create DropDown List that contains related fields
+/// Also Valid Expressions are created automatically. Date Time Picker, Checkboxes, check non-nullable validators. etc.
 class SqfEntityFormCreator {
   SqfEntityFormCreator(this.tableModel, this.instancename);
   final DartObject tableModel;
   final String instancename;
   String get tableModelName =>
       getStringValue(tableModel, 'modelName') ??
-      toCamelCase(getStringValue(tableModel, 'tableName'));
+          toCamelCase(getStringValue(tableModel, 'tableName'));
 
   List<SqfEntityTableBase> toTables() {
     final table = toSqfEntityTable(tableModel, instancename);
@@ -40,6 +44,7 @@ class SqfEntityFormCreator {
   }
 }
 
+/// This class provides to build ORM models by converting dartObject
 class SqfEntityModelBuilder extends SqfEntityModelBase {
   SqfEntityModelBuilder(this.model, this.instancename);
   final DartObject model;
@@ -221,10 +226,10 @@ SqfEntityTableBase? toSqfEntityTable(DartObject obj, String dbModelName,
     ..abstractModelName = getStringValue(obj, 'abstractModelName');
 
   newTable.primaryKeyName = getStringValue(obj, 'primaryKeyName') == null &&
-          newTable.objectType == ObjectType.table
+      newTable.objectType == ObjectType.table
       ? newTable.primaryKeyNames.isEmpty
-          ? '${_tableName}Id'
-          : ''
+      ? '${_tableName}Id'
+      : ''
       : getStringValue(obj, 'primaryKeyName');
 
   if (defaultColumns != null && defaultColumns.isNotEmpty) {
@@ -246,7 +251,7 @@ SqfEntityTableBase? toSqfEntityTable(DartObject obj, String dbModelName,
           collate: defaultField.collate,
           formLabelText: defaultField.formLabelText);
       if (!newTable.primaryKeyNames
-              .any((element) => element == defaultField.fieldName) &&
+          .any((element) => element == defaultField.fieldName) &&
           !newTable.fields!
               .any((element) => element.fieldName == defaultField.fieldName)) {
         print(
@@ -281,9 +286,9 @@ SqfEntityFieldType getFieldProperties(
     ..checkCondition = getStringValue(obj, 'checkCondition')
     ..collate = getTypeValue(obj, 'collate') as Collate?
     ..sequencedBy =
-        obj.getField('sequencedBy').toString().contains('SqfEntitySequence')
-            ? toSequence(obj.getField('sequencedBy')!)
-            : null;
+    obj.getField('sequencedBy').toString().contains('SqfEntitySequence')
+        ? toSequence(obj.getField('sequencedBy')!)
+        : null;
   return _retVal;
 }
 
@@ -291,7 +296,7 @@ SqfEntityFieldType getFieldProperties(
 SqfEntityFieldType toField(DartObject obj, String dbModelName,
     {List<SqfEntityFieldType>? defaultColumns}) {
   final fieldName =
-      ifExist(obj, 'fieldName') ? getStringValue(obj, 'fieldName') : null;
+  ifExist(obj, 'fieldName') ? getStringValue(obj, 'fieldName') : null;
   if (fieldName != null && forbiddenNames.contains(fieldName)) {
     throw Exception(
         'SQFENTITY ERROR: fieldName: [$fieldName] IS FORBIDDEN. PLEASE CHANGE THE FIELD NAME');
@@ -311,7 +316,7 @@ SqfEntityFieldType toField(DartObject obj, String dbModelName,
       ..minValue = getDynamicValue(obj, 'minValue')
       ..maxValue = getDynamicValue(obj, 'maxValue')
       ..fieldName =
-          ifExist(obj, 'fieldName') ? getStringValue(obj, 'fieldName') : null
+      ifExist(obj, 'fieldName') ? getStringValue(obj, 'fieldName') : null
       ..formDropDownTextField = getStringValue(obj, 'formDropDownTextField')
       ..isPrimaryKeyField = getBoolValue(obj, 'isPrimaryKeyField')
       ..isNotNull = getBoolValue(obj, 'isNotNull')
@@ -349,8 +354,8 @@ List<SqfEntityFieldType>? toFields(
 }
 
 List<String>? toListString(
-  List<DartObject>? objList,
-) {
+    List<DartObject>? objList,
+    ) {
   if (objList == null) {
     return null;
   }
@@ -464,8 +469,8 @@ class SqfEntityConverter {
     }
     final list = StringBuffer()..writeln('databaseTables = [');
     for (final table in _m.databaseTables!
-        //.where((table) => table.relationType != RelationType.MANY_TO_MANY)
-        ) {
+    //.where((table) => table.relationType != RelationType.MANY_TO_MANY)
+    ) {
       list.writeln('Table${table.modelName}.getInstance,');
     }
     list.writeln('];');
@@ -577,14 +582,14 @@ class ${_m.modelName} extends SqfEntityModelProvider {
   String get _bundledDbName => _m.instanceName != null
       ? '${_m.instanceName}.bundledDatabasePath'
       : _m.bundledDatabasePath == null
-          ? 'null'
-          : '\'${_m.bundledDatabasePath}\'';
+      ? 'null'
+      : '\'${_m.bundledDatabasePath}\'';
 
   String get _databasePath => _m.instanceName != null
       ? 'databasePath = ${_m.instanceName}.databasePath;'
       : _m.databasePath == null
-          ? ''
-          : 'databasePath = \'${_m.databasePath}\';';
+      ? ''
+      : 'databasePath = \'${_m.databasePath}\';';
   String createConstDatabase() {
     _m.modelName = toModelName(_m.modelName, 'MyDbModel');
     return '''
@@ -768,17 +773,17 @@ class Sequence${seq.modelName} extends SqfEntitySequenceBase {
             '>>> ${table.objectType.toString().toUpperCase()} ${table.tableName}(${fieldNames.toString()}) converting to entity');
         table.dbModel = _m.modelName;
         modelString
-          // ..printToDebug('0: ${table.tableName}')
+        // ..printToDebug('0: ${table.tableName}')
           ..writeln(SqfEntityObjectBuilder(table).toString())
-          // ..printToDebug('1: ${table.tableName}')
+        // ..printToDebug('1: ${table.tableName}')
           ..writeln(SqfEntityObjectField(table).toString())
-          //  ..printToDebug('2: ${table.tableName}')
+        //  ..printToDebug('2: ${table.tableName}')
           ..writeln(SqfEntityObjectFilterBuilder(table,
-                  _m.formTables != null && _m.formTables!.contains(table))
+              _m.formTables != null && _m.formTables!.contains(table))
               .toString())
-          //  ..printToDebug('3: ${table.tableName}')
+        //  ..printToDebug('3: ${table.tableName}')
           ..writeln(SqfEntityFieldBuilder(table).toString())
-          //  ..printToDebug('4: ${table.tableName}')
+        //  ..printToDebug('4: ${table.tableName}')
           ..writeln(SqfEntityObjectManagerBuilder(table).toString());
       }
     }
