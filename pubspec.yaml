@@ -3,11 +3,11 @@ homepage: https://github.com/qijie07/sqfentity_gen
 description: SqfnEntity Model Generator. SQLite ORM for Flutter lets you build and execute SQL commands easily and quickly with the help of fluent methods similar to .Net Entity Framework.
 
 environment:
-  sdk: ">=3.7.0 <4.0.0"
-  flutter: ">=3.24.0"
+  sdk: ">=3.8.0 <4.0.0"
+  flutter: ">=3.29.0"
 
 dependencies:
-  build: 2.4.2
+  build: 2.5.4
   source_gen: 2.0.0
-  analyzer: 7.4.5
+  analyzer: 7.5.2
   intl: 0.20.2
